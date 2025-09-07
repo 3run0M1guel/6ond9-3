@@ -19,11 +19,11 @@
             color: black;
         }
         img{
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: auto;
-            display: block;
             width: 300px;
+            animation: girar3d 4s linear infinite;
+            transform-style: preserve-3d;
+            display: block;
+            margin: 0 auto;
         }
         body{
             background-image: url("img/mcvv.gif");
@@ -33,14 +33,6 @@
             background-position-y: center;
             background-attachment: fixed;
         }
-        p{
-            text-align: center;
-            margin-top: auto;
-            margin-bottom: auto;
-            font-size: 70px;
-            text-shadow: 0 0 10px;
-            font-style: italic;
-        }
         h2{
             margin-top: auto;
             margin-bottom: auto;
@@ -49,20 +41,101 @@
             text-shadow: 0 0 10px;
             font-size: 100px;
         }
+          @keyframes girar3d {
+      from { transform: rotateY(0deg); }
+      to   { transform: rotateY(360deg); }
+    }
+
+     .player {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 15px 20px;
+      border-radius: 15px;
+      width: fit-content;
+      margin: 0 auto;
+      box-shadow: 0 0 15px rgba(0,0,0,0.8);
+    }
+
+    .play-btn {
+      background: white;
+      border: none;
+      color: black;
+      font-size: 22px;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
+    }
+
+    .play-btn:hover {
+      background: black;
+      color: white;
+      border: 1px solid white;
+    }
+
+    input[type="range"] {
+      width: 200px;
+      height: 6px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 3px;
+      cursor: pointer;
+      -webkit-appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: white;
+      cursor: pointer;
+    }
     </style>
 </head>
 <body>
     <h1>6ond9 3<h1>
      <img src="img/MC VV.jpeg" alt="mcvv">
-     <h2>Letra</h2>
-     <p>I NOW, YOU TIRED</p>
-     <p>OF LOVING, OF LOVING</p>
-     <p>WITH NOBODY TO LOVEEEE</P>
-     <p>NOBODY, NOBODY!!!</p>
-     <p>SO JUST GRAB</p>
-     <p>SOMEBODY</p>
-     <p>NO LEAVING THIS PARTY</p>
-     <p>WITH NOBODY TO LOVE</p>
-     <p>NOBODY, NOBODY!!!</p>
+
+     <div class="player">
+      <button class="play-btn" id="playBtn">▶</button>
+      <input type="range" id="progress" value="0" min="0" max="100">
+    </div>
+
+     <audio id="musica" src="sound/MC VV - BOUND 3 - BRUNO FRANKE!.mp3"></audio>
+
+    <script>
+    const musica = document.getElementById("musica");
+    const playBtn = document.getElementById("playBtn");
+    const progress = document.getElementById("progress");
+    let isPlaying = false;
+
+    playBtn.addEventListener("click", () => {
+      if (isPlaying) {
+        musica.pause();
+        playBtn.textContent = "▶";
+      } else {
+        musica.play();
+        playBtn.textContent = "⏸";
+      }
+      isPlaying = !isPlaying;
+    });
+
+    musica.addEventListener("timeupdate", () => {
+      const percent = (musica.currentTime / musica.duration) * 100;
+      progress.value = percent || 0;
+    });
+
+    progress.addEventListener("input", () => {
+      musica.currentTime = (progress.value / 100) * musica.duration;
+    });
+  </script>
+
 </body>
 </html>
